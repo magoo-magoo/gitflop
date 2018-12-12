@@ -1,13 +1,13 @@
 {
-  "main.css": "./static/css/main.858ae8f9.chunk.css",
-  "main.js": "./static/js/main.f2cf53d5.chunk.js",
-  "main.js.map": "./static/js/main.f2cf53d5.chunk.js.map",
-  "static/js/1.ad019476.chunk.js": "./static/js/1.ad019476.chunk.js",
-  "static/js/1.ad019476.chunk.js.map": "./static/js/1.ad019476.chunk.js.map",
-  "runtime~main.js": "./static/js/runtime~main.4a686d48.js",
-  "runtime~main.js.map": "./static/js/runtime~main.4a686d48.js.map",
-  "static/css/main.858ae8f9.chunk.css.map": "./static/css/main.858ae8f9.chunk.css.map",
-  "index.html": "./index.html",
-  "precache-manifest.7da3b8259a63ba6dc07d6c9bbc61161d.js": "./precache-manifest.7da3b8259a63ba6dc07d6c9bbc61161d.js",
-  "service-worker.js": "./service-worker.js"
+  "main.css": "/gitflop/static/css/main.858ae8f9.chunk.css",
+  "main.js": "/gitflop/static/js/main.6fb50fe5.chunk.js",
+  "main.js.map": "/gitflop/static/js/main.6fb50fe5.chunk.js.map",
+  "static/js/1.ad019476.chunk.js": "/gitflop/static/js/1.ad019476.chunk.js",
+  "static/js/1.ad019476.chunk.js.map": "/gitflop/static/js/1.ad019476.chunk.js.map",
+  "runtime~main.js": "/gitflop/static/js/runtime~main.8119d34b.js",
+  "runtime~main.js.map": "/gitflop/static/js/runtime~main.8119d34b.js.map",
+  "static/css/main.858ae8f9.chunk.css.map": "/gitflop/static/css/main.858ae8f9.chunk.css.map",
+  "index.html": "/gitflop/index.html",
+  "precache-manifest.8ff962f5a304bd76ef5944372ff00c44.js": "/gitflop/precache-manifest.8ff962f5a304bd76ef5944372ff00c44.js",
+  "service-worker.js": "/gitflop/service-worker.js"
 }
