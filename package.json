@@ -1,20 +1,24 @@
 {
-  "name": "relator",
+  "name": "gitflop",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://magoo-magoo.github.io/gitflop/",
   "dependencies": {
-    "@types/jest": "23.3.10",
-    "@types/node": "10.12.12",
-    "@types/react": "16.7.13",
-    "@types/react-dom": "16.0.11",
+    "@material-ui/core": "^3.6.1",
+    "@material-ui/icons": "^3.0.1",
+    "@reach/router": "^1.2.1",
+    "apollo-boost": "^0.1.22",
+    "classnames": "^2.2.6",
+    "graphql": "^14.0.2",
+    "graphql-tag": "^2.10.0",
     "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-scripts": "2.1.1",
-    "typescript": "3.2.2"
+    "react-dom": "^16.6.3"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "predeploy": "yarn build",
+    "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -26,5 +30,17 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ]
+  ],
+  "devDependencies": {
+    "@types/classnames": "^2.2.6",
+    "@types/graphql": "^14.0.3",
+    "@types/reach__router": "^1.2.2",
+    "gh-pages": "^2.0.1",
+    "react-scripts": "2.1.1",
+    "typescript": "3.2.2",
+    "@types/jest": "23.3.10",
+    "@types/node": "10.12.12",
+    "@types/react": "16.7.13",
+    "@types/react-dom": "16.0.11"
+  }
 }
