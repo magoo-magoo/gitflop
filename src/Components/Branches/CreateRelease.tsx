@@ -26,8 +26,12 @@ interface State {
     selectedBaseBranch: string
 }
 
-export default class CreateRelease extends React.Component<{}, State> {
-    constructor(props: {}) {
+type Props = {
+    onCreated: () => Promise<void>
+}
+
+export default class CreateRelease extends React.Component<Props, State> {
+    constructor(props: Props) {
         super(props)
         this.state = {
             open: false,
@@ -83,6 +87,7 @@ export default class CreateRelease extends React.Component<{}, State> {
     }
 
     render() {
+        const { onCreated } = this.props
         return (
             <div>
                 <Fab
@@ -150,7 +155,7 @@ export default class CreateRelease extends React.Component<{}, State> {
                                         </MenuItem>
                                     )
                                 )}
-                            </TextField> 
+                            </TextField>
                         </FormControl>
                         <br />
                         <br />
@@ -203,6 +208,7 @@ export default class CreateRelease extends React.Component<{}, State> {
                                     this.state.newBranchName &&
                                     this.state.selectedBaseBranch
                                 ) {
+                                    debugger;
                                     await createBranch(
                                         this.state.newBranchName,
                                         this.state.availableBranches.find(
@@ -211,6 +217,7 @@ export default class CreateRelease extends React.Component<{}, State> {
                                                 this.state.selectedBaseBranch
                                         )
                                     )
+                                    await onCreated()
                                     this.handleClose()
                                 }
                             }}

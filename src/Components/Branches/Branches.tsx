@@ -12,6 +12,30 @@ const style = {
         padding: 16,
     },
 }
+
+type col =
+    | boolean
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 'auto'
+    | undefined
+const xs = (nbElements: number, coef: number) => {
+    return Math.round(
+        72 / (nbElements % 2 === 0 ? nbElements + 1 : nbElements - 1) / coef
+    ) as col
+}
+
 interface State {
     branches: Branch[]
     releases: boolean
@@ -35,104 +59,82 @@ export class Branches extends React.Component<RouteComponentProps, State> {
         }
     }
     public async componentDidMount() {
-        const result = await queryAllOrganizationBranches(
+        await this.reload()
+    }
+    private reload = async () => {
+        const branches = await queryAllOrganizationBranches(
             getSettings().organizations
         )
-        this.setState({ branches: result })
+        this.setState({ branches: [...branches] })
     }
 
     public render() {
-        const branchListCards: JSX.Element[] = []
+        let branchListCards: JSX.Element[] = []
+        const columns: { key: string; branches: Branch[] }[] = []
 
         if (this.state.features) {
-            branchListCards.push(
-                <Grid key="Features" item xs={12} sm={8} md={6} lg={4} xl={2}>
-                    <BranchList
-                        title="Features"
-                        branches={this.state.branches.filter(
-                            b => b.gitflow.isFeature
-                        )}
-                    />
-                </Grid>
-            )
+            columns.push({
+                key: 'Features',
+                branches: this.state.branches.filter(b => b.gitflow.isFeature),
+            })
         }
         if (this.state.releases) {
-            branchListCards.push(
-                <Grid key="Releases" item xs={12} sm={8} md={6} lg={4} xl={2}>
-                    <BranchList
-                        title="Releases"
-                        branches={this.state.branches.filter(
-                            b => b.gitflow.isRealease
-                        )}
-                    />
-                </Grid>
-            )
+            columns.push({
+                key: 'Releases',
+                branches: this.state.branches.filter(b => b.gitflow.isRealease),
+            })
         }
         if (this.state.hotfix) {
-            branchListCards.push(
-                <Grid key="Hotfixes" item xs={12} sm={8} md={6} lg={4} xl={2}>
-                    <BranchList
-                        title="Hotfixes"
-                        branches={this.state.branches.filter(
-                            b => b.gitflow.isHotfix
-                        )}
-                    />
-                </Grid>
-            )
+            columns.push({
+                key: 'Hotfixes',
+                branches: this.state.branches.filter(b => b.gitflow.isHotfix),
+            })
         }
         if (this.state.developments) {
-            branchListCards.push(
-                <Grid
-                    key="Development"
-                    item
-                    xs={12}
-                    sm={8}
-                    md={6}
-                    lg={4}
-                    xl={2}
-                >
-                    <BranchList
-                        title="Development"
-                        branches={this.state.branches.filter(
-                            b => b.gitflow.isDevelop
-                        )}
-                    />
-                </Grid>
-            )
+            columns.push({
+                key: 'Development',
+                branches: this.state.branches.filter(b => b.gitflow.isDevelop),
+            })
         }
         if (this.state.productions) {
-            branchListCards.push(
-                <Grid key="Production" item xs={12} sm={8} md={6} lg={4} xl={2}>
-                    <BranchList
-                        title="Production"
-                        branches={this.state.branches.filter(
-                            b => b.gitflow.isMaster
-                        )}
-                    />
-                </Grid>
-            )
+            columns.push({
+                key: 'Production',
+                branches: this.state.branches.filter(b => b.gitflow.isMaster),
+            })
         }
         if (this.state.others) {
-            branchListCards.push(
-                <Grid key="Other" item xs={12} sm={8} md={6} lg={4} xl={2}>
-                    <BranchList
-                        title="Other"
-                        branches={this.state.branches.filter(
-                            b =>
-                                !b.gitflow.isMaster &&
-                                !b.gitflow.isDevelop &&
-                                !b.gitflow.isFeature &&
-                                !b.gitflow.isHotfix &&
-                                !b.gitflow.isRealease
-                        )}
-                    />
-                </Grid>
-            )
+            columns.push({
+                key: 'Other',
+                branches: this.state.branches.filter(
+                    b =>
+                        !b.gitflow.isMaster &&
+                        !b.gitflow.isDevelop &&
+                        !b.gitflow.isFeature &&
+                        !b.gitflow.isHotfix &&
+                        !b.gitflow.isRealease
+                ),
+            })
         }
+
+        const nbColumns = columns.length
+
+        branchListCards = columns.map(x => (
+            <Grid
+                key={x.key}
+                item
+                xs={xs(nbColumns, 1)}
+                sm={xs(nbColumns, 2)}
+                md={xs(nbColumns, 3)}
+                lg={xs(nbColumns, 4)}
+                xl={xs(nbColumns, 6)}
+            >
+                <BranchList title={x.key} branches={x.branches} />
+            </Grid>
+        ))
 
         return (
             <div style={style.container}>
-                <CreateRelease />
+                <CreateRelease onCreated={this.reload} />
                 <FormGroup row>
                     <FormControlLabel
                         control={

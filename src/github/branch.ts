@@ -1,5 +1,6 @@
 export interface Organisation {
     name: string
+    login: string
     url: string
     avatarUrl: string
 }

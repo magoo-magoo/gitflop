@@ -14,6 +14,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore'
 const classes = {
     root: {
         width: '100%',
+        overflow: 'auto',
+        whiteSpace: 'pre' as any,
     },
     icon: {
         verticalAlign: 'bottom',
@@ -51,15 +53,13 @@ const BranchRow: React.FC<Props> = ({ branch }) => {
                     </div>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails style={classes.details}>
-                    <div style={classes.column}>
-                        <Typography>
+                    <div>
+                        <Typography variant="h6">
                             commit hash: {branch.lastCommitShortHash}
                         </Typography>
-                    </div>
-                    <div style={classes.column}>
-                        <Typography>{branch.lastMessage}</Typography>
-                    </div>
-                    <div style={classes.column}>
+                        <Typography align="justify" noWrap={true}>
+                            {branch.lastMessage}
+                        </Typography>
                         <Typography variant="caption">
                             More info
                             <br />

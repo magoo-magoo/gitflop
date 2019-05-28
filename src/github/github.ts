@@ -12,6 +12,9 @@ const createGithubClient = (token: string, uri: string) => {
             Authorization: `token ${token}`,
         },
     })
+    githubClient.defaultOptions.query = {
+        fetchPolicy: "no-cache"
+    };
     return githubClient
 }
 
@@ -62,6 +65,7 @@ const mapResponseToBranches = async (
                         name: responseData.data.organization.name,
                         url: responseData.data.organization.url,
                         avatarUrl: responseData.data.organization.avatarUrl,
+                        login: responseData.data.organization.login,
                     },
                 },
             })
@@ -92,6 +96,7 @@ const organizationQuery = (organizationLogin: string) =>
 {
 organization(login: "${organizationLogin}") {
   name
+  login
   url
   avatarUrl
   repositories(first: 100) {
@@ -121,14 +126,14 @@ organization(login: "${organizationLogin}") {
   }
 }
 }  
-`,
+`
     })
 
 const queryOrganizationBranches = (organizationLogin: string) =>
     mapResponseToBranches(organizationQuery(organizationLogin))
 
 export const createBranch = async (
-    brancheName: string,
+    newBrancheName: string,
     baseBranch: Branch | undefined
 ) => {
     if (!baseBranch) {
@@ -136,12 +141,12 @@ export const createBranch = async (
     }
     const result = await fetch(
         `${getSettings().githubApiUrl}/repos/${
-            baseBranch.repository.org.name
+            baseBranch.repository.org.login
         }/${baseBranch.repository.name}/git/refs`,
         {
             method: 'POST',
             body: JSON.stringify({
-                ref: `refs/heads/${brancheName}`,
+                ref: `refs/heads/${newBrancheName}`,
                 sha: baseBranch.lastCommitHash,
             }),
             headers: { Authorization: `token ${getSettings().githubToken}` },
@@ -163,6 +168,7 @@ const mapResponseToRepository = async (
                 name: responseData.data.organization.name,
                 url: responseData.data.organization.url,
                 avatarUrl: responseData.data.organization.avatarUrl,
+                login: responseData.data.organization.login,
             },
         })
     })

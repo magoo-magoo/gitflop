@@ -28,6 +28,7 @@ interface repoNode {
 interface Organization {
     name: string
     url: string
+    login: string
     avatarUrl: string
     repositories: {
         nodes: repoNode[]
